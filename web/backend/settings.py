@@ -17,12 +17,26 @@ SECRET_KEY = config("SECRET_KEY")
 # debug configures the dev and production setup, False means the project runs in production mode and True means project runs in development mode.
 DEBUG = config("DEBUG", default=True, cast=bool)
 
+if DEBUG:
+    from fnmatch import fnmatch
+
+    class pattern_list(list):
+        def __contains__(self, key):
+            for pattern in self:
+                if fnmatch(key, pattern):
+                    return True
+            return False
+
+    INTERNAL_IPS = pattern_list(["127.0.0.1", "192.168.*.*"])
+    print(INTERNAL_IPS)
+else:
+    INTERNAL_IPS = config("INTERNAL_IPS", cast=Csv())
+
 # Allowed hosts is the list of hosts to allow hitting the project.
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
 # Needed for 'debug' to be available inside templates.
 # See https://docs.djangoproject.com/en/4.1/ref/templates/api/#django-template-context-processors-debug
-INTERNAL_IPS = ["127.0.0.1", "0.0.0.0", "localhost", "10.5.0.1"]
 
 # The django apps and the external apps.
 INSTALLED_APPS = [

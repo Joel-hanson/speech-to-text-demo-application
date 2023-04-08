@@ -35,7 +35,7 @@ def render_bundle():
     """
 
     manifest = load_json_from_dist()
-    print(manifest)
+
     imports_files = "".join(
         [
             f'<script type="module" src="/static/{manifest[file]["file"]}"></script>'

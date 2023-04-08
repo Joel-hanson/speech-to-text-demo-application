@@ -24,8 +24,6 @@ RUN mkdir -p /app/frontend
 COPY frontend/package*.json ./frontend
 RUN cd frontend && \
     npm install -g npm@latest && \
-    npm install && \
-    npm run build && \
     npm cache clean --force
 
 COPY . .

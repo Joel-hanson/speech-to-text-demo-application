@@ -38,10 +38,10 @@
                 flex items-center">
                 <div class="flex items-center justify-content-center h-full
                     flex-col">
-                    <div class="relative mx-auto block w-80 overflow-hidden
+                    <div class="relative mx-auto w-80 overflow-hidden
                         rounded-lg shadow-xl shadow-slate-200 sm:w-96
                         sm:rounded-xl lg:rounded-2xl flex items-center
-                        justify-center font-sans rounded-xl border-2
+                        justify-center font-sans border-2
                         border-dashed border-blue-400
                         bg-white lg:w-full xl:min-h-[25vh] lg:min-h-[25vh]
                         sm:min-h-min md:min-h-min" id="drop-area">
@@ -58,50 +58,51 @@
                                     stroke-linejoin="round" d="M7 16a4 4 0
                                     01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0
                                     011
-                                    9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                </svg>
-                                <h2 class="mt-4 text-xl font-medium
-                                    text-gray-700 tracking-wide
-                                    upload-label-information">Audio File</h2>
-                                <p class="mt-2 text-gray-500 tracking-wide
-                                    upload-label-information">Upload
-                                    or drag & drop a WAV file. </p>
-                                <input id="dropzone-file" type="file"
-                                    class="hidden upload-label-information" />
-                                <div id="upload-file-details" class="mx-auto
-                                    px-4 flex flex-col text-left"></div>
-                                <button id="upload-button" class="mt-24
-                                    bg-blue-500 hover:bg-blue-700 text-white
-                                    font-bold py-2 px-4 rounded text-right"
-                                    style="display: none;">Upload</button>
-                            </label>
-                        </div>
-                        <div class="mt-10 text-center lg:mt-12 lg:text-left">
-                            <p class="text-xl font-bold text-slate-900">
-                                <a href="/">Speech To Text Demo
-                                    Application</a>
-                            </p>
-                            <p class="mt-3 text-lg font-light leading-8
-                                text-slate-600">
-                                This is a demo application for the demostration
-                                of the speech to text conversion using custom
-                                model.
-                            </p>
-                        </div>
+                                    9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                </path>
+                            </svg>
+                            <h2 class="mt-4 text-xl font-medium
+                                text-gray-700 tracking-wide
+                                upload-label-information">Audio File</h2>
+                            <p class="mt-2 text-gray-500 tracking-wide
+                                upload-label-information">Upload
+                                or drag & drop a WAV file. </p>
+                            <input id="dropzone-file" type="file"
+                                class="hidden upload-label-information" />
+                            <div id="upload-file-details" class="mx-auto
+                                px-4 flex flex-col text-left"></div>
+                            <button id="upload-button" class="mt-24
+                                bg-blue-500 hover:bg-blue-700 text-white
+                                font-bold py-2 px-4 rounded text-right"
+                                style="display: none;">Upload</button>
+                        </label>
+                    </div>
+                    <div class="mt-10 text-center lg:mt-12 lg:text-left">
+                        <p class="text-xl font-bold text-slate-900">
+                            <a href="/">Speech To Text Demo
+                                Application</a>
+                        </p>
+                        <p class="mt-3 text-lg font-light leading-8
+                            text-slate-600">
+                            This is a demo application for the demostration
+                            of the speech to text conversion using custom
+                            model.
+                        </p>
                     </div>
                 </div>
-            </header>
-            <div class="prose">
-                <h1 class="text-3xl font-bold text-clifford">WebSocket Chat</h1>
-                <h2>Your ID: <span id="ws-id"></span></h2>
-                <form action="" onsubmit="sendMessage(event)">
-                    <input type="text" id="messageText" autocomplete="off"
-                        accept="audio/wav" />
-                    <button>Send</button>
-                </form>
-                <ul id="messages"></ul>
             </div>
-            <script>
+        </header>
+        <div class="prose">
+            <h1 class="text-3xl font-bold text-clifford">WebSocket Chat</h1>
+            <h2>Your ID: <span id="ws-id"></span></h2>
+            <form action="" onsubmit="sendMessage(event)">
+                <input type="text" id="messageText" autocomplete="off"
+                    accept="audio/wav" />
+                <button>Send</button>
+            </form>
+            <ul id="messages"></ul>
+        </div>
+        <script>
                 let dropArea = document.getElementById('drop-area')
 
                     // Prevent default drag behaviors
@@ -192,5 +193,5 @@
                     event.preventDefault();
                 }
     </script>
-        </body>
-    </html>
+    </body>
+</html>
