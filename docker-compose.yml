@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+
+  # db:
+  #   image: postgres:12-alpine
+  #   volumes:
+  #     - ./db:/var/lib/postgresql/data
+  #   env_file:
+  #     - web/.env
+  #   ports:
+  #     - 5432:5432
+  #   logging:
+  #       driver: none
+
+  app:  # This service that serves the api for regression and classification
+    build: ./app
+    entrypoint: ./entrypoint.sh
+    image: speech-text-app
+    volumes:
+      - ./app:/app
+    ports:
+      - "3000:3000"
+    env_file:
+      - app/.env
+    stdin_open: true # for testing
+    tty: true # for testing
