@@ -1,0 +1,11 @@
+dj-database-url==1.2.0 # connect to databases with url REVIEW: if not need
+Django==4.1.5
+django-cors-headers==3.13.0 # cors header plugin
+django-storages==1.13.2 # Storage backend for django
+djangorestframework==3.14.0
+python-decouple==3.7 # Helper for django and environment variables
+psutil==5.9.4 # process and system utilities
+channels==4.0.0 # asgi framework
+daphne==4.0.0 # asgi server
+channels-redis==4.1.0
+psycopg2-binary==2.9.6
