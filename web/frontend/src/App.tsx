@@ -1,23 +1,22 @@
 import { useState } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Header from "./components/Header";
+import Prose from "./components/Prose";
 import UploadArea from "./components/UploadArea";
 
 const App = () => {
-  const [uploadedFile, setFile] = useState("");
+  const [uploadedFile, setFile] = useState<File | undefined>(undefined);
 
-  const handleFileUpload = (file: string) => {
+  const handleFileUpload = (file: File | undefined) => {
     setFile(file);
   };
 
   return (
     <ErrorBoundary>
-      <div>
-        <Header>
-          <UploadArea handleFileUpload={handleFileUpload} uploadedFile={uploadedFile} />
-        </Header>
-        {/* <Prose /> */}
-      </div>
+      <Header>
+        <UploadArea handleFileUpload={handleFileUpload} uploadedFile={uploadedFile} />
+      </Header>
+      <Prose />
     </ErrorBoundary>
   );
 };

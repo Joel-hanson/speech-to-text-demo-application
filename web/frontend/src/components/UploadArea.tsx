@@ -1,15 +1,17 @@
 // UploadArea.tsx
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 interface UploadAreaProps {
-    handleFileUpload: (file: string) => void;
-    uploadedFile?: string;
+    handleFileUpload: (file: File | undefined) => void;
+    uploadedFile?: File;
 }
 
 const UploadArea: React.FC<UploadAreaProps> = ({
     handleFileUpload: handleFileUpload,
     uploadedFile: uploadedFile,
 }) => {
+
+    const [uploadReady, setUploadReady] = useState(false);
     const uploadAreaRef = useRef<HTMLDivElement>(null);
 
     const preventDefaults = (event: React.DragEvent) => {
@@ -18,46 +20,41 @@ const UploadArea: React.FC<UploadAreaProps> = ({
     };
 
     const highlight = (event: React.DragEvent) => {
-        uploadAreaRef.current?.classList.add("highlight");
+        preventDefaults(event);
+        uploadAreaRef.current?.classList.add("bg-sky-300");
     };
 
     const unhighlight = (event: React.DragEvent) => {
-        uploadAreaRef.current?.classList.remove("highlight");
+        preventDefaults(event);
+        uploadAreaRef.current?.classList.remove("bg-sky-300");
     };
 
     const handleDrop = (event: React.DragEvent) => {
-        preventDefaults(event);
         unhighlight(event);
-
         const file = event.dataTransfer?.files[0];
 
         if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const result = reader.result as string;
-                handleFileUpload(result);
-            };
-            reader.readAsDataURL(file);
+            handleFileUpload(file);
+            setUploadReady(true);
         }
     };
 
     return (
         <div
-            ref={uploadAreaRef}
             className="relative z-10 mx-auto px-4 pb-4 pt-10 sm:px-6 md:max-w-sm md:px-4 lg:min-h-full lg:flex-auto flex items-center"
-            id="drop-area"
-            onDragEnter={highlight}
-            onDragOver={highlight}
-            onDragLeave={unhighlight}
-            onDrop={handleDrop}
         >
             <div
+                ref={uploadAreaRef}
                 className="relative mx-auto w-80 overflow-hidden shadow-xl shadow-slate-200 sm:w-96 sm:rounded-xl lg:rounded-2xl flex items-center justify-center font-sans rounded-xl border-2 border-dashed border-blue-400 bg-white lg:w-full xl:min-h-[25vh] lg:min-h-[25vh] sm:min-h-min md:min-h-min"
                 id="drop-area"
+                onDragEnter={highlight}
+                onDragOver={highlight}
+                onDragLeave={unhighlight}
+                onDrop={handleDrop}
             >
                 <label
                     htmlFor="dropzone-file"
-                    className="mx-auto cursor-pointer flex flex-col items-center p-6 text-center"
+                    className="mx-auto cursor-pointer flex flex-col items-center p-5 text-center"
                 >
                     {uploadIcon()}
                     <h2 className="mt-4 text-xl font-medium text-gray-700 tracking-wide upload-label-information">
@@ -73,12 +70,12 @@ const UploadArea: React.FC<UploadAreaProps> = ({
                     />
                     <div
                         id="upload-file-details"
-                        className="mx-auto px-4 flex flex-col text-left"
+                        className="mx-auto p-2 my-2 mt-4 text-left text-sm font-mono text-gray-500 bg-gray-100"
                     >{uploadFileInfo(uploadedFile)}</div>
                     <button
                         id="upload-button"
-                        className="mt-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-right"
-                        style={{ display: "none" }}
+                        className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        style={{ display: uploadReady ? "block" : "none" }}
                     >
                         Upload
                     </button>
@@ -107,20 +104,21 @@ function uploadIcon() {
     );
 }
 
-function uploadFileInfo(file: string) {
+function uploadFileInfo(file: File | undefined) {
     if (file) {
+        console.log("file: ", file);
         return (
-            <div>
+            <>
                 <h2 className="mt-4 text-xl font-medium text-slate-700">
-                    {/* {file.name} */}
+                    {file.name}
                 </h2>
-                <p className="font-mono text-sm order-first leading-7 text-slate-500">
-                    {/* {file.size} bytes */}
+                <p className="font-mono text-sm order-first leading-7 text-slate-500 float-left inline p-1">
+                    {file.size} bytes
                 </p>
-                <p className="mt-1 text-xs leading-7 text-slate-700">
-                    {/* Type: {(file.type || "n/a").toUpperCase()} */}
+                <p className="text-xs leading-7 text-slate-700 float-right inline p-1">
+                    Type: {(file.type || "n/a").toUpperCase()}
                 </p>
-            </div>
+            </>
         );
     }
 }
