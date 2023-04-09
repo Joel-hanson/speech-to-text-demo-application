@@ -9,6 +9,11 @@ services:
       - 6379:6379
     logging:
       driver: none
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   db:
     image: postgres:12-alpine
@@ -23,6 +28,11 @@ services:
       - 5432:5432
     logging:
       driver: none
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 
   app:  # This service that serves the api for text to speech
