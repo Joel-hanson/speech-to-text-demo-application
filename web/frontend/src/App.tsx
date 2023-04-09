@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Header from "./components/Header";
-import Prose from "./components/Prose";
+import Main from "./components/Main";
 import UploadArea from "./components/UploadArea";
 
 const App = () => {
@@ -16,7 +16,7 @@ const App = () => {
       <Header>
         <UploadArea handleFileUpload={handleFileUpload} uploadedFile={uploadedFile} />
       </Header>
-      <Prose />
+      <Main />
     </ErrorBoundary>
   );
 };

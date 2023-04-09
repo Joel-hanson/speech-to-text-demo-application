@@ -27,8 +27,7 @@ if DEBUG:
                     return True
             return False
 
-    INTERNAL_IPS = pattern_list(["127.0.0.1", "192.168.*.*"])
-    print(INTERNAL_IPS)
+    INTERNAL_IPS = pattern_list(["127.0.0.1", "*.*.*.*"])
 else:
     INTERNAL_IPS = config("INTERNAL_IPS", cast=Csv())
 
