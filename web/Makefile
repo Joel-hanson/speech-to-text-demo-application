@@ -28,5 +28,9 @@ reset:
 	make superuser
 	make test
 
+start-s2t-upload-event-source-connector:
+	curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" connect:8083/connectors/ -d @connect/s2t-upload-event-source-connector.json
 
+# start-s2t-http-sink-connector:
+# 	curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" connect:8083/connectors/ -d @connect/s2t-http-sink-connector.json
 # Path: Makefile

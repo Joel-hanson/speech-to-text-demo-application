@@ -9,3 +9,4 @@ channels==4.0.0 # asgi framework
 daphne==4.0.0 # asgi server
 channels-redis==4.1.0
 psycopg2-binary==2.9.6
+kafka-python==2.0.2

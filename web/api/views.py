@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.shortcuts import render
+from kafka import KafkaProducer
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -11,15 +13,22 @@ from .serializers import UploadSerializer
 class UploadAPIView(ModelViewSet):
     serializer_class = UploadSerializer
     queryset = Upload.objects.all()
+    authentication_classes = []
 
-    # def create(self, request, *args, **kwargs):
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_create(serializer)
-    #     headers = self.get_success_headers(serializer.data)
-    #     return Response(
-    #         serializer.data, status=status.HTTP_201_CREATED, headers=headers
-    #     )
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        print(settings.INTERNAL_BOOTSTRAP_SERVERS)
+        producer = KafkaProducer(bootstrap_servers=settings.INTERNAL_BOOTSTRAP_SERVERS)
+        message = serializer.data
+        message_string = str(message)
+        message_bytes = message_string.encode("utf-8")
+        producer.send("test", message_bytes)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
     # def perform_create(self, serializer):
     #     serializer.save()

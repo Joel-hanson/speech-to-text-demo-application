@@ -164,3 +164,5 @@ MEDIA_URL = "/media/"
 
 # REST framework configuration.
 REST_FRAMEWORK = {"TEST_REQUEST_DEFAULT_FORMAT": "json"}
+
+INTERNAL_BOOTSTRAP_SERVERS = config("INTERNAL_BOOTSTRAP_SERVERS", cast=Csv())
