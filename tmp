@@ -26,3 +26,7 @@ curl -i -X GET -H "Accept:application/json" localhost:8083/connectors/upload-con
 
 # delete connector
 curl -i -X DELETE -H "Accept:application/json" localhost:8083/connectors/upload-connector
+
+Thing to complete:
+- [ ] Get the reposnse from speech service and save it to the database
+- [ ] Send the processed files as socket messages to the client

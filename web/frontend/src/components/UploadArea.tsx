@@ -63,7 +63,6 @@ const UploadArea: React.FC<UploadAreaProps> = ({
             let response = uploadFileToApi(uploadedFile);
             response
                 .then((data) => {
-                    console.log(data);
                     // show toast message
                     setUploadSuccess(true);
                     setUploadReady(false);
@@ -74,7 +73,6 @@ const UploadArea: React.FC<UploadAreaProps> = ({
                     setUploading(false);
                 })
                 .catch((error) => {
-                    console.log(error);
                     setUploading(false);
                     setUploadError(true);
                 });

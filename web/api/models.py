@@ -7,13 +7,21 @@ class Upload(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.file.name
+        # id
+        return f"{self.pk} - {self.file.name}"
 
 
-class UploadDetail(models.Model):
-    upload = models.ForeignKey(Upload, on_delete=models.CASCADE)
-    text = models.TextField()
-    progress = models.IntegerField(default=0)
+class TaskRun(models.Model):
+    STATUS_CHOICES = (
+        ("STARTED", "STARTED"),
+        ("PROCESSING", "PROCESSING"),
+        ("COMPLETED", "COMPLETED"),
+        ("FAILURE", "FAILURE"),
+    )
+    upload = models.ForeignKey(Upload, related_name="uploads", on_delete=models.CASCADE)
+    text = models.TextField(default="")
+    service = models.CharField(max_length=255, default="")
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES, default="STARTED")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "celery",
     "rest_framework",
+    "django_celery_results",
     "api",
 ]
 
@@ -81,11 +83,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "backend.wsgi.application"
 ASGI_APPLICATION = "backend.asgi.application"
+REDIS_HOST = config("REDIS_HOST", "redis", cast=str)
+REDIS_PORT = config("REDIS_PORT", "6379", cast=int)
+REDIS_DB = config("REDIS_DB", "1", cast=int)
+REDIS_URL = "redis://{host}:{port}/{db}".format(
+    host=REDIS_HOST,
+    port=REDIS_PORT,
+    db=REDIS_DB,
+)
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("redis", 6379)],
+            "hosts": [
+                (
+                    REDIS_HOST,
+                    REDIS_PORT,
+                )
+            ],
         },
     },
 }
@@ -165,4 +180,34 @@ MEDIA_URL = "/media/"
 # REST framework configuration.
 REST_FRAMEWORK = {"TEST_REQUEST_DEFAULT_FORMAT": "json"}
 
-INTERNAL_BOOTSTRAP_SERVERS = config("INTERNAL_BOOTSTRAP_SERVERS", cast=Csv())
+# Celery
+
+BROKER_URL = "amqp://{user}:{password}@{host}:{port}/".format(
+    user=config("RABBITMQ_USER", "guest", cast=str),
+    password=config("RABBITMQ_PASSWORD", "guest", cast=str),
+    host=config("RABBITMQ_HOST", "rabbitmq", cast=str),
+    port=config("RABBITMQ_PORT", "5672", cast=int),
+    # vhost=config("RABBITMQ_VHOST", "rabbitmq", cast=str),
+)
+
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_ACKS_LATE = False
+CELERY_TIMEZONE = TIME_ZONE
+
+CELERY_BROKER_URL = BROKER_URL
+CELERY_CACHE_BACKEND = "default"
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_RESULT_EXTENDED = True
+# django setting caches using postgres.
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_URL,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+CELERY_RESULT_PERSISTENT = True

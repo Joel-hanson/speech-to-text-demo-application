@@ -131,3 +131,4 @@ db
 redis
 mediafiles
 connectors
+rabbitmq

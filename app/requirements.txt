@@ -1,4 +1,0 @@
-fastapi==0.95.0
-python-decouple==3.8
-uvicorn==0.21.1
-kafka-python==2.0.2

@@ -1,8 +1,7 @@
 from django.urls import path, re_path
 
-from .consumers import SpeechToTextConsumer
-from .views import UploadAPIView
+from .consumers import S2TConsumer
 
 websocket_urlpatterns = [
-    re_path(r"ws/s2t/(?P<lobby_name>\w+)/$", SpeechToTextConsumer.as_asgi()),
+    re_path(r"ws/s2t/(?P<lobby_name>\w+)/$", S2TConsumer.as_asgi()),
 ]

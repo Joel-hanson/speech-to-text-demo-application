@@ -1,8 +1,17 @@
-run-frontend:
-	cd frontend && npm install && npm run build && npm run dev
+run-frontend-install: 
+	cd frontend && npm install
+
+run-frontend-build:
+	cd frontend && npm run build
+
+run-frontend: run-frontend-install run-frontend-build
+	cd frontend && npm run dev
 
 run:
 	python3 manage.py runserver 0.0.0.0:8000
+
+run-celery:
+	watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery -A backend worker -l info
 
 migrate:
 	python3 manage.py makemigrations
@@ -27,10 +36,3 @@ reset:
 	make migrate
 	make superuser
 	make test
-
-start-s2t-upload-event-source-connector:
-	curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" connect:8083/connectors/ -d @connect/s2t-upload-event-source-connector.json
-
-# start-s2t-http-sink-connector:
-# 	curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" connect:8083/connectors/ -d @connect/s2t-http-sink-connector.json
-# Path: Makefile

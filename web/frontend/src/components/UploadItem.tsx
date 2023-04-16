@@ -1,6 +1,42 @@
+import { useEffect } from "react";
+import AnimatedText from "./AnimatedText";
+import ItemStatus from "./ItemStatus";
 import ListenButton from "./ListenButton";
+import TextContentLoader from "./TextContentLoader";
+// import TypedText from "./TypedText";
 
-const UploadItem = () => {
+export type Upload = {
+    id: number;
+    file: string;
+    created_at: string;
+    updated_at: string;
+};
+
+export type UploadItemProps = {
+    id: number;
+    file: string;
+    created_at: string;
+    updated_at: string;
+    uploads: Upload[];
+};
+
+export type UploadDetailsProps = {
+    id: number;
+    text: string;
+    service: string;
+    status: string;
+    date: string;
+    time: string;
+    title: string;
+    upload: Upload;
+};
+
+
+const UploadItem = ({ item }: { item: UploadDetailsProps }) => {
+    useEffect(() => {
+        console.log(`UploadItem: ${item.id} - ${item.title} - ${item.status}`);
+    }, [item]);
+
     return (
         <article aria-labelledby="episode-5-title" className="py-10 sm:py-12">
             <div className="lg:px-8">
@@ -11,19 +47,29 @@ const UploadItem = () => {
                                 id="episode-5-title"
                                 className="mt-2 text-lg font-bold text-slate-900"
                             >
-                                Bill Lumbergh
+                                {item.title}
                             </h2>
                             <time
-                                dateTime="2022-02-24T00:00:00.000Z"
                                 className="order-first font-mono text-sm leading-7 text-slate-500"
                             >
-                                February 24, 2022
+                                {item.date}
                             </time>
-                            <p className="mt-1 text-base leading-7 text-slate-700">
-                                He’s going to need you to go ahead and come in on Saturday, but
-                                there’s a lot more to the story than you think.
-                            </p>
-                            {stepper()}
+                            <time
+                                className="order-first font-mono text-xs leading-7 text-slate-500"
+                            >
+                                {item.time}
+                            </time>
+                            {/* <TypedText text={item.text} delay={30} /> */}
+
+                            {item.status === "STARTED" || item.status === "PROCESSING" ? (
+                                <TextContentLoader></TextContentLoader>
+                            ) : (
+                                item.status === "COMPLETED" &&
+                                <AnimatedText text={item.text} /> ||
+                                item.status === "FAILED" &&
+                                <AnimatedText text={"Failed to process the file"} />
+                            )}
+                            <ItemStatus status={item.status} />
                             <ListenButton />
                         </div>
                     </div>
@@ -32,40 +78,5 @@ const UploadItem = () => {
         </article>
     );
 };
-
-function stepper() {
-    return (
-        <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 mt-4 gap-4 bg-gray-100 p-4 rounded-md">
-            <li className="flex md:w-full items-center text-teal-600 dark:text-teal-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
-                <span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
-                    <svg
-                        aria-hidden="true"
-                        className="w-4 h-4 mr-2 sm:w-4 sm:h-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd"
-                        ></path>
-                    </svg>
-                    Processing <span className="hidden sm:inline-flex sm:ml-2">Started</span>
-                </span>
-            </li>
-            <li className="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
-                <span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
-                    <span className="mr-2">2</span>
-                    Running <span className="hidden sm:inline-flex sm:ml-2">Transforms</span>
-                </span>
-            </li>
-            <li className="flex items-center">
-                <span className="mr-2">3</span>
-                Done
-            </li>
-        </ol>
-    );
-}
 
 export default UploadItem;

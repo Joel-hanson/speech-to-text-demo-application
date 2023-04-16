@@ -1,0 +1,9 @@
+fastapi==0.95.0
+python-decouple==3.8
+uvicorn==0.21.1
+celery[redis]==5.2.7
+Redis==4.5.4
+SQLAlchemy==2.0.9
+watchdog==2.3.1
+psycopg2-binary==2.9.6 # postgresql driver
+SpeechRecognition==3.10.0

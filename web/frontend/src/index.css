@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.animated-text {
+    opacity: 0; /* Set initial opacity to 0 */
+    transition: opacity 0.5s ease; /* Apply transition effect to opacity with duration and easing */
+  }
+  
+  .text-visible {
+    opacity: 1; /* Set opacity to 1 when the element is visible */
+  }
