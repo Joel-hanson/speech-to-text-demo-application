@@ -11,7 +11,7 @@ run:
 	python3 manage.py runserver 0.0.0.0:8000
 
 run-celery:
-	watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery -A backend worker -l info
+	python3 manage.py celery
 
 migrate:
 	python3 manage.py makemigrations
@@ -19,6 +19,12 @@ migrate:
 
 shell:
 	python3 manage.py shell
+
+celery-debug:
+	celery call backend.celery.debug_task
+
+celery-get-registered-tasks:
+	celery inspect registered
 
 test:
 	python3 manage.py test

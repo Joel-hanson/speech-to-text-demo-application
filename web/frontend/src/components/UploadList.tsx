@@ -18,7 +18,7 @@ type SocketMessage = {
 };
 
 
-const Main = () => {
+const UploadList = () => {
     //Public API that will echo messages sent to it back to the client
     const [socketUrl, setSocketUrl] = useState(S2T_WS_URL + 'lobby/');
     const [messageHistory, setMessageHistory] = useState<SocketMessage[]>([]);
@@ -156,4 +156,4 @@ function showWebsocketStatus(connectionStatus: string) {
     </div >;
 }
 
-export default Main;
+export default UploadList;

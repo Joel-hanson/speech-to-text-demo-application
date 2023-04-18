@@ -18,6 +18,10 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_module)  # type: ignore
 app = Celery("backend")  # type: ignore
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks(lambda: [n.name for n in apps.get_app_configs()])
+app.conf.task_routes = {
+    "backend.*": {"queue": "backend"},
+    "speech_service.*": {"queue": "speech_service"},
+}
 
 
 @app.task(bind=True)

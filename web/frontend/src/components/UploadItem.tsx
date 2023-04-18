@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import AnimatedText from "./AnimatedText";
-import ItemStatus from "./ItemStatus";
+import ItemStatus, { getStepIndex } from "./ItemStatus";
 import ListenButton from "./ListenButton";
 import TextContentLoader from "./TextContentLoader";
-// import TypedText from "./TypedText";
 
 export type Upload = {
     id: number;
@@ -61,16 +60,14 @@ const UploadItem = ({ item }: { item: UploadDetailsProps }) => {
                             </time>
                             {/* <TypedText text={item.text} delay={30} /> */}
 
-                            {item.status === "STARTED" || item.status === "PROCESSING" ? (
+                            {getStepIndex(item.status) <= 2 ? (
                                 <TextContentLoader></TextContentLoader>
                             ) : (
-                                item.status === "COMPLETED" &&
-                                <AnimatedText text={item.text} /> ||
-                                item.status === "FAILED" &&
-                                <AnimatedText text={"Failed to process the file"} />
+                                getStepIndex(item.status) == 3 ?
+                                    <AnimatedText text={item.text} /> : <AnimatedText text={"Failed to process the file"} />
                             )}
                             <ItemStatus status={item.status} />
-                            <ListenButton />
+                            <ListenButton link={item.upload.file} />
                         </div>
                     </div>
                 </div>

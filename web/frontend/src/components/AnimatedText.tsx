@@ -23,7 +23,7 @@ const AnimatedText = ({ text }: { text: string }) => {
                 className={`animated-text ${isTextVisible ? 'text-visible' : ''}`}
             >
                 {text ?
-                    text.substring(0, 250) + '...'
+                    text.substring(0, 250) + (text.length > 250 ? "..." : "")
                     :
                     "Loading..."
                 }

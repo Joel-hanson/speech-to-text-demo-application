@@ -16,6 +16,14 @@ make run &
 echo "Starting celery"
 make run-celery &
 
+# export CELERY_BROKER_URL="amqp://${RABBITMQ_DEFAULT_USER:-guest}:${RABBITMQ_DEFAULT_PASS:-guest}@${RABBITMQ_HOST:-rabbitmq}:${RABBITMQ_PORT:-5672}/"
+
+# echo "get celery registred tasks"
+# make celery-get-registered-tasks &
+
+# echo "debug celery"
+# make celery-debug &>/dev/null &
+
 # Wait for any process to exit
 wait -n
 

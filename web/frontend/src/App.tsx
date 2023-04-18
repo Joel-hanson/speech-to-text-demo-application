@@ -1,8 +1,8 @@
 import { useState } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Header from "./components/Header";
-import Main from "./components/Main";
 import UploadArea from "./components/UploadArea";
+import UploadList from "./components/UploadList";
 
 const App = () => {
   const [uploadedFile, setFile] = useState<File | undefined>(undefined);
@@ -16,7 +16,7 @@ const App = () => {
       <Header>
         <UploadArea handleFileUpload={handleFileUpload} uploadedFile={uploadedFile} />
       </Header>
-      <Main />
+      <UploadList />
     </ErrorBoundary>
   );
 };

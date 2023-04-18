@@ -1,10 +1,15 @@
-const ListenButton = () => {
+const ListenButton = ({ link }: { link: string }) => {
     return (
         <div className="mt-4 flex items-center gap-4">
             <button
                 type="button"
                 className="flex items-center text-sm font-bold leading-6 text-teal-500 hover:text-teal-700 active:text-teal-900"
-                aria-label="Play episode 5: Bill Lumbergh"
+                onClick={() => {
+                    window.open(
+                        link,
+                        "_blank"
+                    );
+                }}
             >
                 <svg
                     aria-hidden="true"

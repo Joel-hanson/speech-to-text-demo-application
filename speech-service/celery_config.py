@@ -1,5 +1,4 @@
 import urllib.request
-from time import sleep, time
 
 from celery import Celery
 from celery.utils.log import get_task_logger
@@ -24,13 +23,14 @@ RABBITMQ_URL = "amqp://{user}:{password}@{host}:{port}/".format(
 
 
 # postgres backend db
-BACKEND_URL = "db+postgresql://{user}:{password}@{host}:{port}/{db}".format(
+DATABASE_URL = "postgresql://{user}:{password}@{host}:{port}/{db}".format(
     user=config("DB_USER", "postgres", cast=str),
     password=config("DB_PASSWORD", "postgres", cast=str),
     host=config("DB_HOST", "db", cast=str),
     port=config("DB_PORT", "5432", cast=int),
     db=config("DB_NAME", "postgres", cast=str),
 )
+BACKEND_URL = "db+" + DATABASE_URL
 
 # # dead letter queue
 # dead_letter_queue_option = {
@@ -49,6 +49,7 @@ BACKEND_URL = "db+postgresql://{user}:{password}@{host}:{port}/{db}".format(
 
 # celery config
 celery = Celery("tasks", broker=RABBITMQ_URL, backend=BACKEND_URL)
+
 # celery.conf.task_queues = (default_queue, dead_letter_queue)
 # celery.conf.task_default_queue = "default"
 # celery.conf.task_default_exchange = "default"  # type: ignore

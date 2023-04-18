@@ -1,10 +1,9 @@
-import asyncio
-
+from backend.celery import app
 from celery import shared_task
+from celery.result import AsyncResult
 from celery.utils.log import get_task_logger
-from channels.layers import get_channel_layer
+from django_celery_results.models import states
 
-from .consumers import LOBBY_GROUP_NAME
 from .models import TaskRun
 from .serializers import TaskRunsDetailedSerializer
 from .utils import send_status_update
@@ -12,10 +11,12 @@ from .utils import send_status_update
 celery_log = get_task_logger(__name__)
 
 
-@shared_task(name="backend.save_speech_results")
+@shared_task(bind=True, name="backend.save_speech_results")
 def save_speech_results(
+    self,
     id,
     text,
+    duration,
 ):
     """
     Save speech results to db
@@ -26,14 +27,15 @@ def save_speech_results(
     :param updated_at: updated at
     :return: None
     """
-    celery_log.info("Entered save_speech_results %s", id)
-    celery_log.info("Text: %s", text)
+    celery_log.debug("Entered save_speech_results %s task_id: %s", id, self.request.id)
 
-    task_run = TaskRun.objects.get(id=id)
-    task_run.status = "COMPLETED"
-    task_run.text = text
-    task_run.save()
-    task_run_data = TaskRunsDetailedSerializer(task_run).data
-    send_status_update(task_run_data)
+    try:
+        task_run = TaskRun.objects.get(id=id)
+        task_run.status = states.SUCCESS
+        task_run.text = text
+        task_run.save()
+        send_status_update(task_run)
+    except Exception as e:
+        celery_log.exception(e)
 
-    return task_run_data
+    return {"id": id, "text": text, "duration": duration}

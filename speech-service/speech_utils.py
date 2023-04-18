@@ -3,7 +3,7 @@ import speech_recognition as sr
 
 def recognize_speech(file_path):
     """
-    Recognize speech from file
+    Recognize speech from audio data
     :param file_path: path to the file
     :return: recognized text
     """
@@ -11,7 +11,7 @@ def recognize_speech(file_path):
     with sr.AudioFile(file_path) as source:
         audio = r.record(source)
     try:
-        text = r.recognize_google(audio)
+        text = r.recognize_sphinx(audio)
     except sr.UnknownValueError:
         text = "Google Speech Recognition could not understand audio"
     except sr.RequestError as e:
