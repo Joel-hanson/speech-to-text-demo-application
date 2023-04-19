@@ -2,10 +2,9 @@ import tempfile
 from time import time
 from urllib import request
 
-import sqlalchemy
 from celery import shared_task
 from celery.utils.log import get_task_logger
-from celery_config import DATABASE_URL, celery
+from celery_config import celery
 from speech_utils import recognize_speech
 
 celery_log = get_task_logger(__name__)

@@ -8,7 +8,8 @@ const UploadAreaText = (children: any) => {
             </p>
             <p className="mt-3 text-lg font-light leading-8 text-slate-600">
                 This is a demo application for the demonstration of the speech to
-                text conversion using a custom model.
+                text conversion. You can upload an audio file and get the
+                transcription of the audio file.
             </p>
         </>
     );
