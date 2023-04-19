@@ -1,4 +1,4 @@
-from django.db import models, transaction
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_celery_results.models import TASK_STATE_CHOICES, TaskResult, states

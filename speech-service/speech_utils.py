@@ -13,9 +13,7 @@ def recognize_speech(file_path):
     try:
         text = r.recognize_sphinx(audio)
     except sr.UnknownValueError:
-        text = "Google Speech Recognition could not understand audio"
+        text = "Sphinx could not understand audio"
     except sr.RequestError as e:
-        text = "Could not request results from Google Speech Recognition service; {0}".format(
-            e
-        )
+        text = "Sphinx error; {0}".format(e)
     return text

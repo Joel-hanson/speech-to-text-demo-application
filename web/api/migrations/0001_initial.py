@@ -8,30 +8,67 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Upload',
+            name="Upload",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(upload_to='uploads/')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("file", models.FileField(upload_to="uploads/")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(
-            name='TaskRun',
+            name="TaskRun",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('task_id', models.CharField(default='', max_length=255, unique=True)),
-                ('text', models.TextField(default='')),
-                ('service', models.CharField(default='', max_length=255)),
-                ('status', models.CharField(choices=[('FAILURE', 'FAILURE'), ('PENDING', 'PENDING'), ('RECEIVED', 'RECEIVED'), ('RETRY', 'RETRY'), ('REVOKED', 'REVOKED'), ('STARTED', 'STARTED'), ('SUCCESS', 'SUCCESS')], default='STARTED', max_length=255)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('upload', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='uploads', to='api.upload')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("task_id", models.CharField(default="", max_length=255, unique=True)),
+                ("text", models.TextField(default="")),
+                ("service", models.CharField(default="", max_length=255)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("FAILURE", "FAILURE"),
+                            ("PENDING", "PENDING"),
+                            ("RECEIVED", "RECEIVED"),
+                            ("RETRY", "RETRY"),
+                            ("REVOKED", "REVOKED"),
+                            ("STARTED", "STARTED"),
+                            ("SUCCESS", "SUCCESS"),
+                        ],
+                        default="STARTED",
+                        max_length=255,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "upload",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="uploads",
+                        to="api.upload",
+                    ),
+                ),
             ],
         ),
     ]
